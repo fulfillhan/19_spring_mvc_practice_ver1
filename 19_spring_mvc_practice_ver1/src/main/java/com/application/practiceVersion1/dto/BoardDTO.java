@@ -8,7 +8,7 @@ import lombok.Data;
 public class BoardDTO {
 	
 	private long boardId;
-	private String passWd;
+	private String passwd;
 	private String writer;
 	private String subject;
 	private String content;

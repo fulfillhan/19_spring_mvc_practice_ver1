@@ -1,5 +1,7 @@
 package com.application.practiceVersion1.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.application.practiceVersion1.dto.BoardDTO;
@@ -8,5 +10,11 @@ import com.application.practiceVersion1.dto.BoardDTO;
 public interface BoardDAO {
 
 	public void createBoard(BoardDTO boardDTO);
+
+	public List<BoardDTO> getBoardList();
+
+	public BoardDTO getBoardDetail(long boardId);
+	
+	public void updateReadCnt(long boardId);
 
 }

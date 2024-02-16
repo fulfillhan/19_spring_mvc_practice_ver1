@@ -12,12 +12,28 @@ INSERT INTO BOARD(
 VALUES(
 	#{writer},
 	#{subject},
-	#{passWd},
+	#{passwd},
 	#{content}
 
 )
 
 </insert>
+
+<select id="getBoardList" resultType="BoardDTO">
+	SELECT *
+	FROM BOARD
+</select>
+
+<select id="getBoardDetail" parameterType="long" resultType="BoardDTO">
+	SELECT *
+	FROM BOARD
+	WHERE BOARD_ID = #{boardId}
+</select>
+<update id="updateReadCnt" parameterType="long">
+	UPDATE BOARD
+	SET READ_CNT   = READ_CNT+1
+	WHERE BOARD_ID = #{boardId}
+</update>
 
 
 </mapper>
