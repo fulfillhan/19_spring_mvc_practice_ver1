@@ -88,7 +88,7 @@ public class BoardController {
 		String  jsScript = "";
 		
 		if(boardService.checkAuthorized(boardDTO))  {
-			//여기서부터 업데이트
+			
 			if(menu.equals("update")) {
 				jsScript = "<script>";
 				jsScript +="location.href='/board/updateBoard?boardId="+boardDTO.getBoardId()+"';";
@@ -114,7 +114,8 @@ public class BoardController {
 	}
 	
 	//.오류 발생 : MissingServletRequestParameterException: Required request parameter 'menu' for method parameter type String is not present]
-	//-> 이부분 부터 연습 "menu"를 못 찾고있다.
+	//-> 파라메타로 넘어오는 "menu"를 못 찾고있다.
+	// 해결: html에서 화면 넘길시 value=${} 가 아닌 value="" 이렇게 작성이 되어있었다.
 	@GetMapping("/updateBoard")
 	public String updateBoard(Model model, @RequestParam("boardId") long boardId) {
 		model.addAttribute("boardDTO",boardService.getBoardDetail(boardId));

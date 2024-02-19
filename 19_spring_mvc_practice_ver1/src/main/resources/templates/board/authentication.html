@@ -28,10 +28,10 @@
 				</tr>
 			</table>
 			<p>
-				<input type="hidden" value="boardId" name="${boardDTO.boardId}">
-				<input type="hidden" value="menu" name="${menu}">
+				<input type="hidden" name="boardId" th:value="${boardDTO.boardId}">
+				<input type="hidden" name="menu" th:value="${menu}">
 				<input type="submit" value="인증" />
-				<input type="button" value="목록보기" th:onclick="|location.href='@{/board/boardList}|"/>
+				<input type="button" value="목록보기" th:onclick="|location.href='@{/board/boardList'}|"/>
 			</p>
 		</form>
 	</div>
