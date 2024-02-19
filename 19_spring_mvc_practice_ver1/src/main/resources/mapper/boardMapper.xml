@@ -29,11 +29,28 @@ VALUES(
 	FROM BOARD
 	WHERE BOARD_ID = #{boardId}
 </select>
+
 <update id="updateReadCnt" parameterType="long">
 	UPDATE BOARD
 	SET READ_CNT   = READ_CNT+1
 	WHERE BOARD_ID = #{boardId}
 </update>
 
+<select id="getEncodePasswd" parameterType="long" resultType="String">
+	SELECT PASSWD
+	FROM BOARD
+	WHERE BOARD_ID=#{boardId}
+</select>
+
+<update id="updateBoard" parameterType="boardDTO">
+	UPDATE BOARD
+	SET SUBJECT = #{subject},
+		CONTENT = #{content}
+	WHERE BOARD_ID=#{boardId}
+</update>
+<delete id="deleteBoard" parameterType="long">
+DELETE FROM BOARD
+WHERE BOARD_ID=#{boardId}
+</delete>
 
 </mapper>

@@ -12,4 +12,10 @@ public interface BoardService {
 
 	public BoardDTO getBoardDetail(long boardId);
 
+	public boolean checkAuthorized(BoardDTO boardDTO);
+
+	public void updateBoard(BoardDTO boardDTO);
+
+	public void deleteBoard(long boardId);
+
 }

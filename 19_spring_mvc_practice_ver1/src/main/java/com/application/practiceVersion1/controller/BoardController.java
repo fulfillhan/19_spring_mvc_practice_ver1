@@ -60,11 +60,90 @@ public class BoardController {
 	@GetMapping("/boardDetail")
 	public String boardDetail(Model model, @RequestParam("boardId") long boardId) {
 		
-		System.out.println(boardService.getBoardDetail(boardId));
+		//System.out.println(boardService.getBoardDetail(boardId));
 		
 		model.addAttribute("boardDTO", boardService.getBoardDetail(boardId));
 		return "board/boardDetail";
 	}
 	
+	@GetMapping("/authentication")
+	public String authentication(Model model, 
+					@RequestParam("boardId") long boardId, 
+					@RequestParam("menu") String menu) {
+		model.addAttribute("boardDTO", boardService.getBoardDetail(boardId));
+		model.addAttribute("menu", menu);
+		
+		return "board/authentication";
+		
+		//오류 org.thymeleaf.exceptions.TemplateInputException 발생
+		//해결: authentication html에서 location.href='@{/board/boardList} 이 문장에서 || 를 생략하면 안된다.
+		
+	}
+	
+	@PostMapping("/authentication")
+	@ResponseBody
+	public String authentication(@ModelAttribute BoardDTO boardDTO, 
+								@RequestParam("menu") String menu) {
+		
+		String  jsScript = "";
+		
+		if(boardService.checkAuthorized(boardDTO))  {
+			//여기서부터 업데이트
+			if(menu.equals("update")) {
+				jsScript = "<script>";
+				jsScript +="location.href='/board/updateBoard?boardId="+boardDTO.getBoardId()+"';";
+				jsScript +="</script>";
+			}
+			else if (menu.equals("delete")) {
+				jsScript="<script>";
+				jsScript += "location.href='/board/deleteBoard?boardId="+boardDTO.getBoardId()+"';";
+				jsScript += "</script>";
+				
+			}
+		}
+		else {
+			jsScript="""
+					<script>
+					alert('패스워드를 입력하세요!');
+					history.go(-1);
+					</script>
+					""";
+		}
+		return jsScript;
+		
+	}
+	
+	//.오류 발생 : MissingServletRequestParameterException: Required request parameter 'menu' for method parameter type String is not present]
+	//-> 이부분 부터 연습 "menu"를 못 찾고있다.
+	@GetMapping("/updateBoard")
+	public String updateBoard(Model model, @RequestParam("boardId") long boardId) {
+		model.addAttribute("boardDTO",boardService.getBoardDetail(boardId));
+		return  "board/updateBoard";
+	}
+	
+	@PostMapping("/updateBoard")
+	@ResponseBody
+	public String updateBoard(@ModelAttribute BoardDTO boardDTO) {
+		boardService.updateBoard(boardDTO);
+		String jsScript ="""
+				<script>
+				 alert('수정 완료되었습니다.');
+				 location.href='/board/boardList';
+				</script>
+				""";
+		return jsScript;
+	}
+	
+	@GetMapping("/deleteBoard")
+	public String deleteBoard( Model model ,@RequestParam("boardId") long boardId) {
+		model.addAttribute("boardId", boardId);
+		return "board/deleteBoard";
+	}
+	
+	@PostMapping("/deleteBoard")
+	public String deleteBoard(@RequestParam("boardId") long boardId) {
+		boardService.deleteBoard(boardId);
+		return "";
+	}
 
 }
