@@ -42,7 +42,7 @@ VALUES(
 	WHERE BOARD_ID=#{boardId}
 </select>
 
-<update id="updateBoard" parameterType="boardDTO">
+<update id="updateBoard" parameterType="BoardDTO">
 	UPDATE BOARD
 	SET SUBJECT = #{subject},
 		CONTENT = #{content}

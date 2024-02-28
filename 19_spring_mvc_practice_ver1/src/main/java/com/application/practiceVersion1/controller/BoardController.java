@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.application.practiceVersion1.dto.BoardDTO;
 import com.application.practiceVersion1.service.BoardService;
+//오류발생2: [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: 
+//Failed to convert value of type 'java.lang.String' to required type 'long'; For input string: ""
+//@@ResponseBody 생략되어있었다.
 
 @Controller
 @RequestMapping("/board")
@@ -142,9 +145,17 @@ public class BoardController {
 	}
 	
 	@PostMapping("/deleteBoard")
+	@ResponseBody
 	public String deleteBoard(@RequestParam("boardId") long boardId) {
 		boardService.deleteBoard(boardId);
-		return "";
+		
+		String jsScript ="""
+				<script>
+				 alert('게시글 삭제되었습니다.');
+				 location.href='/board/boardList';
+				</script>
+				""";
+		return jsScript;
 	}
 
 }
